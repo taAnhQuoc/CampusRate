@@ -2,7 +2,7 @@ import { PlaceService } from './place.service.js';
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { CreatePlaceDTO } from './entities/dto/create-place.dto.js';
 import { UpdatePlaceDTO } from './entities/dto/update-place.dto.js';
-@Controller('place')
+@Controller('places')
 export class PlaceController {
 
     constructor(
