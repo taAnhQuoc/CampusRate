@@ -3,7 +3,7 @@ import { RatingService } from './rating.service.js';
 import { CreateRatingDTO } from './entities/dto/create-rating.dto.js';
 import { UpdatePlaceDTO } from '../place/entities/dto/update-place.dto.js';
 
-@Controller('rating')
+@Controller('ratings')
 export class RatingController {
 
     constructor(

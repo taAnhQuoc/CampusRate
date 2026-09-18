@@ -34,7 +34,8 @@ energy-api/
 ├── src/
     place/
     ├── dto/
-    └── create-place.dto.ts
+    ├── update.place.dto.ts
+    └── create.place.dto.ts
 ├── entities/
     └── place.entity.ts
 ├── place.controller.ts
@@ -42,7 +43,8 @@ energy-api/
 └── place.service.ts
     rating/
     ├── dto/
-    ├── create-rating.dto.ts
+    ├── create.rating.dto.ts
+    ├── update.rating.dto.ts
     ├── entities/
     └── rating.entity.ts
 ├── rating.controller.ts
