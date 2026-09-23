@@ -28,6 +28,18 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Contract des routes
+
+### Place
+Route de Places
+<img width="946" height="293" alt="image" src="https://github.com/user-attachments/assets/adf7f328-df5e-4caf-98f2-efd02756f542" />
+
+### Rating 
+Route de Ratings
+<img width="932" height="260" alt="image" src="https://github.com/user-attachments/assets/c743663d-1082-4c42-b3e9-78afc9cdc4d3" />
+
+
 ## Structure of project 
 ```
 energy-api/
