@@ -12,7 +12,7 @@ export class Rating {
   updatedAt!: Date;
 
   constructor(createRatingDTO: CreateRatingDTO) {
-    this.id = "rev_" + randomUUID();
+    this.id = randomUUID();
     this.placeId = createRatingDTO.placeId;
     this.authorName = createRatingDTO.authorName;
     this.comment = createRatingDTO.comment;
