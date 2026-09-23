@@ -14,6 +14,7 @@ $ npm install
 <ul>
   <li>PORT</li>
   <li>DATA_FILE_PATH</li>
+  <li>DATA_FILE_PATH2</li>
 </ul>
 
 ## Compile and run the project
