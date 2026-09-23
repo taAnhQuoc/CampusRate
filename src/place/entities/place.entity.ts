@@ -17,7 +17,7 @@ export class Place {
 
   constructor(createPlaceDTO: CreatePlaceDTO ) {
 
-    this.id = 'plc_' + randomUUID();
+    this.id = randomUUID();
     this.name = createPlaceDTO.name;
     this.description = createPlaceDTO.description;
     this.category = createPlaceDTO.category;

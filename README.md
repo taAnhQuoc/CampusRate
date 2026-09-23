@@ -14,6 +14,7 @@ $ npm install
 <ul>
   <li>PORT</li>
   <li>DATA_FILE_PATH</li>
+  <li>DATA_FILE_PATH2</li>
 </ul>
 
 ## Compile and run the project
@@ -28,13 +29,26 @@ $ npm run start:dev
 # production mode
 $ npm run start:prod
 ```
+
+## Contract des routes
+
+### Place
+Route de Places
+<img width="946" height="293" alt="image" src="https://github.com/user-attachments/assets/adf7f328-df5e-4caf-98f2-efd02756f542" />
+
+### Rating 
+Route de Ratings
+<img width="932" height="260" alt="image" src="https://github.com/user-attachments/assets/c743663d-1082-4c42-b3e9-78afc9cdc4d3" />
+
+
 ## Structure of project 
 ```
 energy-api/
 ├── src/
     place/
     ├── dto/
-    └── create-place.dto.ts
+    ├── update.place.dto.ts
+    └── create.place.dto.ts
 ├── entities/
     └── place.entity.ts
 ├── place.controller.ts
@@ -42,7 +56,8 @@ energy-api/
 └── place.service.ts
     rating/
     ├── dto/
-    ├── create-rating.dto.ts
+    ├── create.rating.dto.ts
+    ├── update.rating.dto.ts
     ├── entities/
     └── rating.entity.ts
 ├── rating.controller.ts
