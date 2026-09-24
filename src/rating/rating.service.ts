@@ -15,11 +15,11 @@ export class RatingService implements OnModuleInit {
     constructor(private readonly configService: ConfigService) {
          this.dataPath = this.configService.get<string>('DATA_PATH2', './data/rating.json');
     }
-
+    //https://jsonic.io/
     async onModuleInit(): Promise<void> {
         this.ratings = await this.loadFromLocal();
     }
-
+    // https://jsonic.io/
     private async loadFromLocal(): Promise<Rating[]> {
         try {
             const raw = await fs.readFile(this.dataPath, 'utf-8');
@@ -31,7 +31,7 @@ export class RatingService implements OnModuleInit {
             throw err;
         }
     }
-
+    //https://jsonic.io/
     private async saveToLocal(): Promise<void> {
         await fs.mkdir(dirname(this.dataPath), { recursive: true });
         await fs.writeFile(this.dataPath, JSON.stringify(this.ratings, null, 2), 'utf-8');
