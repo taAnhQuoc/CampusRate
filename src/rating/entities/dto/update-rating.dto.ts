@@ -1,8 +1,6 @@
-import { PartialType } from "@nestjs/swagger";
-import { CreatePlaceDTO } from "../../../place/entities/dto/create-place.dto.js";
-import { IsEmpty } from "class-validator";
+import { PartialType, OmitType } from "@nestjs/swagger";
+import { CreateRatingDTO } from "./create-rating.dto.js";
 
-export class UpdateRatingDTO extends PartialType(CreatePlaceDTO){
-    @IsEmpty()
-    placeId? : string;
-}
+export class UpdateRatingDTO extends PartialType(
+  OmitType(CreateRatingDTO, ['placeId'] as const),
+) {}

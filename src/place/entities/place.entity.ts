@@ -3,7 +3,7 @@ import { Prop, Schema } from "@nestjs/mongoose";
 
 @Schema({ timestamps: true })
 export class Place {
-  @Prop({type: String, default: () => + "plc_" + randomUUID(), unique: true})
+  @Prop({type: String, default: () => `plc_${randomUUID()}`, unique: true})
   id!: string;
   @Prop({required: true, unique: true})
   name!: string;

@@ -7,7 +7,7 @@
         .setDescription(
           'API REST for campus places and rating them.',
         )
-        .setVersion('1.0.0')
+        .setVersion('2.0.0')
         .addTag('Place', 'Managing Place')
         .addTag('Review', 'Managing Rating')
         .build();

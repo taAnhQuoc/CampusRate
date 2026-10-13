@@ -2,87 +2,40 @@ import { Injectable, NotFoundException, OnModuleInit } from '@nestjs/common';
 import { Place } from './entities/place.entity.js';
 import { CreatePlaceDTO } from './entities/dto/create-place.dto.js';
 import { UpdatePlaceDTO } from './entities/dto/update-place.dto.js';
-import { ConfigService } from '@nestjs/config';
-import { promises as fs } from 'fs';
-import { dirname } from 'path';
+import { ConflictException } from '@nestjs/common';
+import { PlaceRepository } from './place.repository.js';
 
 @Injectable()
-export class PlaceService implements OnModuleInit {
+export class PlaceService {
+  constructor(private readonly placeRepository: PlaceRepository) {}
 
-    private places: Place[] = [];
-    private readonly dataPath: string;
+  findAll(): Promise<Place[]> {
+    return this.placeRepository.findAll();
+  }
 
-    constructor(private readonly configService: ConfigService) {
-        this.dataPath = this.configService.get<string>('DATA_PATH', './data/places.json');
-    }
-    //https://jsonic.io/
-    async onModuleInit(): Promise<void> {
-        this.places = await this.loadFromLocal();
-    }
-    //https://jsonic.io/
-    private async loadFromLocal(): Promise<Place[]> {
-        try {
-            const raw = await fs.readFile(this.dataPath, 'utf-8');
-            return JSON.parse(raw) as Place[];
-        } catch (err: any) {
-            if (err.code === 'ENOENT') {
-                return [];
-            }
-            throw err;
-        }
-    }
-    //https://jsonic.io/
-    private async saveToLocal(): Promise<void> {
-        await fs.mkdir(dirname(this.dataPath), { recursive: true });
-        await fs.writeFile(this.dataPath, JSON.stringify(this.places, null, 2), 'utf-8');
-    }
+  async findOne(id: string): Promise<Place> {
+    const place = await this.placeRepository.findbyId(id);
+    if (!place) throw new NotFoundException(`The place Id ${id} doesn't exist`);
+    return place;
+  }
 
-    findAll(): Place[] {
-        return this.places;
-    }
+async create(createPlaceDTO: CreatePlaceDTO): Promise<Place> {
 
-    findOne(id: string): Place {
-        const place = this.places.find((place: Place) => place.id === id);
+  const existing = await this.placeRepository.findByName(createPlaceDTO.name);
+  if (existing) {
+    throw new ConflictException(`A place named "${createPlaceDTO.name}" already exists`);
+  }
 
-        if (!place) {
-            throw new NotFoundException(`The place Id ${id} doesn't exist`);
-        }
+  return this.placeRepository.create(createPlaceDTO);
+}
+  async update(id: string, updatePlaceDTO: UpdatePlaceDTO): Promise<Place> {
+    const place = await this.placeRepository.update(id, updatePlaceDTO);
+    if (!place) throw new NotFoundException(`The place Id ${id} doesn't exist`);
+    return place;
+  }
 
-        return place;
-    }
-    /**
-    async create(createPlaceDTO: CreatePlaceDTO): Promise<Place> {
-        const newPlace: Place = new Place(createPlaceDTO);
-        Object.assign(newPlace, createPlaceDTO);
-
-        this.places.push(newPlace);
-
-        await this.saveToLocal();
-
-        return newPlace;
-    }
-         */
-
-    async update(id: string, updatePlaceDTO: UpdatePlaceDTO): Promise<Place> {
-        const place: Place = this.findOne(id);
-
-        Object.assign(place, updatePlaceDTO);
-        place.updatedAt = new Date();
-
-        await this.saveToLocal();
-
-        return place;
-    }
-
-    async remove(id: string): Promise<void> {
-        const index = this.places.findIndex((place: Place) => place.id === id);
-
-        if (index === -1) {
-            throw new NotFoundException(`The place Id ${id} doesn't exist`);
-        }
-
-        this.places.splice(index, 1);
-
-        await this.saveToLocal();
-    }
+  async remove(id: string): Promise<void> {
+    const place = await this.placeRepository.deleteById(id);
+    if (!place) throw new NotFoundException(`The place Id ${id} doesn't exist`);
+  }
 }

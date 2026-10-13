@@ -11,10 +11,10 @@ import {
 
 export class CreateRatingDTO {
 
-    // Rating Id
+    // Place Id
     @ApiProperty({
         description: "Rating Id of this place",
-        example: "plc_w12593068036",
+        example: "rat_w12593068036",
         maxLength: 100
     })
     @IsString()

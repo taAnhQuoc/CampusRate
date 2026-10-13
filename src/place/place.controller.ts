@@ -25,11 +25,9 @@ export class PlaceController {
       description: 'Invalid Data.',
       type: ProblemDetailsDto,
     })
-    /**
     create(@Body() createPlaceDTO: CreatePlaceDTO) {
       return this.placeService.create(createPlaceDTO);
     }
-       */
 
     @Get()
     @ApiOperation({
@@ -52,7 +50,7 @@ export class PlaceController {
     @ApiParam({
       name: 'id',
       description: 'Identifiant UUID du place',
-      format: 'uuid',
+      example: "plc_58bcf690-43e9-4739-a230-185a696fe9f"
     })
     @ApiOperation({
       summary: 'Find place by id',
@@ -77,7 +75,7 @@ export class PlaceController {
     @ApiParam({
       name: 'id',
       description: 'Uuid of the place',
-      format: 'uuid',
+      example: "plc_58bcf690-43e9-4739-a230-185a696fe9f"
     })
     @ApiBadRequestResponse({
       description: 'Invalid Data.',
@@ -100,7 +98,7 @@ export class PlaceController {
     @ApiParam({
       name: 'id',
       description: 'Uuid of the place',
-      format: 'uuid',
+      example: "plc_58bcf690-43e9-4739-a230-185a696fe9f"
     })
     remove(@Param('id') id: string) {
       return this.placeService.remove(id);
