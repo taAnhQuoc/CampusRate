@@ -25,9 +25,11 @@ export class PlaceController {
       description: 'Invalid Data.',
       type: ProblemDetailsDto,
     })
+    /**
     create(@Body() createPlaceDTO: CreatePlaceDTO) {
       return this.placeService.create(createPlaceDTO);
     }
+       */
 
     @Get()
     @ApiOperation({

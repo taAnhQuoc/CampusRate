@@ -23,10 +23,12 @@ export class RatingController {
       description: 'Invalid Data.',
       type: ProblemDetailsDto,
     })
+    /** 
     @Post()
     create(@Body() createRatingDTO: CreateRatingDTO) {
         return this.ratingService.create(createRatingDTO)
     }
+        */
 
     @Get()
     @ApiOperation({

@@ -50,7 +50,7 @@ export class PlaceService implements OnModuleInit {
 
         return place;
     }
-
+    /**
     async create(createPlaceDTO: CreatePlaceDTO): Promise<Place> {
         const newPlace: Place = new Place(createPlaceDTO);
         Object.assign(newPlace, createPlaceDTO);
@@ -61,6 +61,7 @@ export class PlaceService implements OnModuleInit {
 
         return newPlace;
     }
+         */
 
     async update(id: string, updatePlaceDTO: UpdatePlaceDTO): Promise<Place> {
         const place: Place = this.findOne(id);

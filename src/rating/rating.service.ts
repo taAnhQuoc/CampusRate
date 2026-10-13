@@ -50,7 +50,7 @@ export class RatingService implements OnModuleInit {
         
         return rating;
     }
-    
+    /** 
     async create(createRatingDTO: CreateRatingDTO): Promise<Rating> {
     
         const newRating: Rating = new Rating(createRatingDTO)
@@ -63,6 +63,7 @@ export class RatingService implements OnModuleInit {
     
         return newRating;
     }
+    */
     
     async update(id: string, updateRatingDTO: UpdateRatingDTO): Promise<Rating> {
          
