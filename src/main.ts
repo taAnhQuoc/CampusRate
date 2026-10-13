@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module.js';
-import { VersioningType } from '@nestjs/common';
+import { VersioningType, ValidationPipe } from '@nestjs/common';
 import { configureSwagger } from './configure-swagger.js';
 
 async function bootstrap() {
@@ -10,6 +10,12 @@ async function bootstrap() {
   type: VersioningType.URI,
   defaultVersion: '1',
 });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true
+    })
+  )
   configureSwagger(app);
   const port = process.env.PORT ?? 3000;
   await app.listen(port);
