@@ -1,31 +1,29 @@
-import { CreatePlaceDTO } from "./dto/create-place.dto.js";
 import { randomUUID } from "crypto";
+import { Prop, Schema } from "@nestjs/mongoose";
 
+@Schema({ timestamps: true })
 export class Place {
-
+  @Prop({type: String, default: () => `plc_${randomUUID()}`, unique: true})
   id!: string;
+  @Prop({required: true, unique: true})
   name!: string;
+  @Prop({required: true})
   description!: string;
+  @Prop({required: true})
   category!: string;
+  @Prop({required: true})
   address!: string;
+  @Prop({type: [String], default: () => []})
   services?: string[] = [];
+  @Prop({default: () => 'active'})
   status?: string = 'active';
+  @Prop({type: Number, default: () => null})
   averageRating: number = NaN;
+  @Prop({default: () => 0 })
   reviewCount: number = 0;
+  @Prop({default: () => new Date()})
   createdAt: Date;
+  @Prop({default: () => new Date()})
   updatedAt: Date;
 
-  constructor(createPlaceDTO: CreatePlaceDTO ) {
-
-    this.id = randomUUID();
-    this.name = createPlaceDTO.name;
-    this.description = createPlaceDTO.description;
-    this.category = createPlaceDTO.category;
-    this.address = createPlaceDTO.address;
-    this.services = createPlaceDTO.services;
-    this.status = createPlaceDTO.status;
-    this.createdAt = new Date();
-    this.updatedAt = new Date();
-    
-  }
 }

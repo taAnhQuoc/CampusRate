@@ -1,73 +1,123 @@
-## Description
+# CampusRate API
 
 REST API which allows student to rate and consulte places on the campus.
+Built with NestJS, TypeScript, MongoDB (Mongoose) and documented with Swagger/OpenAPI.
 
-## Project setup
+## 1. Project setup
+
+Requirements: Node.js (LTS), npm, and a MongoDB database (MongoDB Atlas, see below).
 
 ```bash
-$ npm install
+npm ci
+npm install
 ```
 
-## Configurations: 
+## 2. Configurations
 
-.env should follow the example of .env.example
+Copy the example and fill in your values:
+
+```bash
+cp .env.example .env
+```
+
 <ul>
-  <li>PORT</li>
-  <li>DATA_FILE_PATH</li>
-  <li>DATA_FILE_PATH2</li>
+  <li>PORT: the port of the API</li>
+  <li>MONGO_DOMAIN: the domain of the API</li>
+  <li>MONGO_USERNAME: mongodb </li>
+  <li>MONGO_PASSWORD: mongodb password</li>
+  <li>MONGO_DB: mongodb database name</li>
+  <li>JWT_SECRET: Secret used to sign JWT</li>
 </ul>
 
-## Compile and run the project
+Generate a secret:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-## Contract des routes
+## 3. Run the project
+
+```bash
+# install
+npm install
+# development
+npm run start
+# watch mode
+npm run start:dev
+# production
+npm run start:prod     
+
+npm run lint
+```
+
+## 4. Swagger
+
+- Swagger UI: http://localhost:3000/api/v1/docs
+
+## 5. Routes Contract
 
 ### Place
-Route de Places
-<img width="946" height="293" alt="image" src="https://github.com/user-attachments/assets/adf7f328-df5e-4caf-98f2-efd02756f542" />
+![alt text](image-1.png)
 
-### Rating 
-Route de Ratings
-<img width="932" height="260" alt="image" src="https://github.com/user-attachments/assets/c743663d-1082-4c42-b3e9-78afc9cdc4d3" />
+### Rating
+![alt text](image-3.png)
 
+### Auth
+![alt text](image.png)
 
-## Structure of project 
+## 6. Structure of project
+
 ```
 energy-api/
 ├── src/
-    place/
+    auth/
+    ├── dto/
+    ├── login.dto.ts
+    └── token.dto.ts
+    jwt/
+    ├── jwt-auth.guard.ts
+    └── jwt.strategy.ts
+    ├── auth.controller.ts
+    ├── auth.module.ts
+    └── auth.service.ts
+├── commun/
+    ├── http.filter.ts
+    ├── json.content-type-guards.ts
+    ├── logger.middleware.ts    
+    ├── mongo-error.ts
+    ├── page.details-dto.ts
+    └── problem.detail-dto.ts
+├── config/
+    ├── configure-http.ts
+    ├── configure-swagger.ts
+    └── database.config.ts
+├── place/
     ├── dto/
     ├── update.place.dto.ts
     └── create.place.dto.ts
 ├── entities/
     └── place.entity.ts
-├── place.controller.ts
-├── place.module.ts
-└── place.service.ts
-    rating/
+├── schema/
+    └── place.schema.ts
+    ├── place.controller.ts
+    ├── place.module.ts
+    ├── place.repository.ts
+    └── place.service.ts
+├── rating/
     ├── dto/
     ├── create.rating.dto.ts
     ├── update.rating.dto.ts
-    ├── entities/
+├── entities/
     └── rating.entity.ts
-├── rating.controller.ts
-├── rating.module.ts
-└── rating.service.ts
-    ├── app.controller.spec.ts
-    ├── app.module.ts
-    └── main.ts
+├── schema/
+    └── rating.entity.ts
+    ├── rating.controller.ts
+    ├── rating.module.ts
+    ├── rating.repository.ts
+    └── rating.service.ts
+├── app.module.ts
+├── main.ts
 ├── test/
-├── configure-swagger.ts
 ├── .gitignore
 ├── README.md
 ├── .env.example
@@ -77,16 +127,10 @@ energy-api/
 ├── tsconfig.build.json
 └── tsconfig.json
 ```
-## Run tests
+## 7. Optionnal Function
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
+<ul>
+  <li>M1, M2 et M3 (une fonction pour calculer le total des ratings)</li>
+  <li>H1,H2,H3,H4,H5</li>
+  <li>L1, A1 JWT</li>
+</ul>

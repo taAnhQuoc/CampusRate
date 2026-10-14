@@ -7,9 +7,11 @@
         .setDescription(
           'API REST for campus places and rating them.',
         )
-        .setVersion('1.0.0')
+        .setVersion('2.0.0')
+        .addTag('Auth', 'Login (JWT)')
         .addTag('Place', 'Managing Place')
-        .addTag('Review', 'Managing Rating')
+        .addTag('Rating', 'Managing Rating')
+        .addBearerAuth()
         .build();
 
       const documentFactory = () =>

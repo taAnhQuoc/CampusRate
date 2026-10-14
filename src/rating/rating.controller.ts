@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Get, Param, Patch, HttpCode, HttpStatus, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Patch, HttpCode, HttpStatus, Delete, UseGuards } from '@nestjs/common';
 import { RatingService } from './rating.service.js';
 import { CreateRatingDTO } from './entities/dto/create-rating.dto.js';
-import { UpdatePlaceDTO } from '../place/entities/dto/update-place.dto.js';
 import { ProblemDetailsDto } from '../commun/problem.detail.dto.js';
-import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse, ApiUnsupportedMediaTypeResponse, ApiBearerAuth } from '@nestjs/swagger';
+import { UpdateRatingDTO } from './entities/dto/update-rating.dto.js';
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard.js';
 
 @Controller('ratings')
 export class RatingController {
@@ -23,11 +24,14 @@ export class RatingController {
       description: 'Invalid Data.',
       type: ProblemDetailsDto,
     })
+    @ApiUnsupportedMediaTypeResponse({ 
+      description: 'Content-Type must be application/json' 
+    })
     @Post()
     create(@Body() createRatingDTO: CreateRatingDTO) {
         return this.ratingService.create(createRatingDTO)
     }
-
+  
     @Get()
     @ApiOperation({
         summary: 'Lists ratings of a place',
@@ -45,7 +49,7 @@ export class RatingController {
     @ApiParam({
       name: 'id',
       description: 'Identifiant UUID du rating',
-      format: 'uuid',
+      example: "rat_103gfskgf1356664"
     })
     @ApiOperation({
       summary: 'Find rating by id',
@@ -70,11 +74,15 @@ export class RatingController {
     @ApiParam({
       name: 'id',
       description: 'uuid of the rating to update',
-      format: 'uuid',
+      example: "rat_103gfskgf1356664"
     })
-    update(@Param('id') id: string, @Body() updateRatingDTO: UpdatePlaceDTO) {
+    @ApiUnsupportedMediaTypeResponse({ 
+      description: 'Content-Type must be application/json' 
+    })
+    update(@Param('id') id: string, @Body() updateRatingDTO: UpdateRatingDTO) {
         return this.ratingService.update(id, updateRatingDTO)
     }
+    
    @ApiOperation({
         summary: 'Delete a rating',
         description: 'Delete a rating in the database.',
@@ -86,8 +94,10 @@ export class RatingController {
     @ApiParam({
       name: 'id',
       description: 'Uuid of the rating',
-      format: 'uuid',
+      example: "rat_103gfskgf1356664"
     })
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
     remove(@Param('id') id: string) {
