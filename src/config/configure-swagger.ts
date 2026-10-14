@@ -10,6 +10,8 @@
         .setVersion('2.0.0')
         .addTag('Place', 'Managing Place')
         .addTag('Review', 'Managing Rating')
+        .addTag('Auth', 'Login (JWT)')
+        .addBearerAuth()
         .build();
 
       const documentFactory = () =>

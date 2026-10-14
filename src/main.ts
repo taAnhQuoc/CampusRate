@@ -1,16 +1,13 @@
 import { NestFactory } from '@nestjs/core';
+import { NestExpressApplication } from '@nestjs/platform-express';
 import { AppModule } from './app.module.js';
 import { VersioningType, ValidationPipe } from '@nestjs/common';
-import { configureSwagger } from './configure-swagger.js';
-import helmet from 'helmet';
+import { configureSwagger } from './config/configure-swagger.js';
+import { configureHttp } from './config/configure-http.js';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
-  app.use(helmet());
-  app.enableCors({
-    origin: ['http://localhost:3030'], 
-    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-  });
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  configureHttp(app);
   app.setGlobalPrefix('api');
   app.enableVersioning({
   type: VersioningType.URI,

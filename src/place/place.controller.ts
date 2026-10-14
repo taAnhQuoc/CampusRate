@@ -1,10 +1,11 @@
 import { PlaceService } from './place.service.js';
-import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus, UseGuards } from '@nestjs/common';
 import { CreatePlaceDTO } from './entities/dto/create-place.dto.js';
 import { UpdatePlaceDTO } from './entities/dto/update-place.dto.js';
 import { ProblemDetailsDto } from '../commun/problem.detail.dto.js';
 import { PageDetailsDto } from '../commun/page.details.dto.js';
-import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse, ApiUnsupportedMediaTypeResponse, ApiConflictResponse } from '@nestjs/swagger';
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard.js';
 
 @Controller('places')
 export class PlaceController {
@@ -25,10 +26,16 @@ export class PlaceController {
       description: 'Invalid Data.',
       type: ProblemDetailsDto,
     })
+    @ApiConflictResponse({ 
+      description: 'Name already used', 
+      type: ProblemDetailsDto 
+    })
+    @ApiUnsupportedMediaTypeResponse({ 
+      description: 'Content-Type must be application/json' 
+    })
     create(@Body() createPlaceDTO: CreatePlaceDTO) {
       return this.placeService.create(createPlaceDTO);
     }
-
     @Get()
     @ApiOperation({
       summary: "A list of all places",
@@ -81,6 +88,13 @@ export class PlaceController {
       description: 'Invalid Data.',
       type: ProblemDetailsDto,
     })
+    @ApiUnsupportedMediaTypeResponse({ 
+      description: 'Content-Type must be application/json' 
+    })
+    @ApiConflictResponse({ 
+      description: 'Name already used', 
+      type: ProblemDetailsDto 
+    })
     update(@Param('id') id: string, @Body() updatePlaceDTO: UpdatePlaceDTO) {
       return this.placeService.update(id, updatePlaceDTO);
     }
@@ -100,6 +114,7 @@ export class PlaceController {
       description: 'Uuid of the place',
       example: "plc_58bcf690-43e9-4739-a230-185a696fe9f"
     })
+    @UseGuards(JwtAuthGuard)
     remove(@Param('id') id: string) {
       return this.placeService.remove(id);
     }

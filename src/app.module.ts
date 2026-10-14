@@ -4,8 +4,11 @@ import { RatingModule } from './rating/rating.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import databaseConfig from './config/database.config.js';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
+import { APP_GUARD } from '@nestjs/core';
+import { JsonContentTypeGuard } from './commun/json-content-type-guard.js';
+import { AuthModule } from './auth/auth.module.js';
 import Joi from 'joi';
-
 
 @Module({
   imports: [
@@ -31,8 +34,15 @@ import Joi from 'joi';
       })
 
     }),
-    PlaceModule, RatingModule],
+    ThrottlerModule.forRoot([
+    {
+      ttl: 60_000,
+      limit: 100,
+    },
+  ]),
+  PlaceModule, RatingModule, AuthModule],
   controllers: [],
-  providers: [],
+  providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard, },
+              {provide: APP_GUARD, useClass: JsonContentTypeGuard}],
 })
 export class AppModule {}
