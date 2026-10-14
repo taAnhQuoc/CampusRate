@@ -6,6 +6,7 @@ export type ratingDocument = HydratedDocument<Rating>;
 
 export const SchemaRating = SchemaFactory.createForClass(Rating);
 
+SchemaRating.index({ placeId: 1, createdAt: -1 });
 SchemaRating.pre("save", function() {
     this.updatedAt = new Date();
 })

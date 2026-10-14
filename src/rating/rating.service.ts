@@ -1,8 +1,9 @@
-import { Injectable, NotFoundException, ConflictException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { Rating } from './entities/rating.entity.js';
 import { CreateRatingDTO } from './entities/dto/create-rating.dto.js';
 import { UpdateRatingDTO } from './entities/dto/update-rating.dto.js';;
 import { RatingRepository } from './rating.repository.js';
+import { RatingSummary } from './rating.repository.js';
 
 @Injectable()
 export class RatingService {
@@ -32,4 +33,7 @@ async create(createRatingDTO: CreateRatingDTO): Promise<Rating> {
     const rating = await this.ratingRepository.deleteById(id);
     if (!rating) throw new NotFoundException(`The rating Id ${id} doesn't exist`);
   }
+  summaryForPlace(placeId: string): Promise<RatingSummary> {
+    return this.ratingRepository.summaryForPlace(placeId);
+}
 }

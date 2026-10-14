@@ -1,9 +1,10 @@
-import { Body, Controller, Post, Get, Param, Patch, HttpCode, HttpStatus, Delete } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Patch, HttpCode, HttpStatus, Delete, UseGuards } from '@nestjs/common';
 import { RatingService } from './rating.service.js';
 import { CreateRatingDTO } from './entities/dto/create-rating.dto.js';
 import { ProblemDetailsDto } from '../commun/problem.detail.dto.js';
-import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse, ApiUnsupportedMediaTypeResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UpdateRatingDTO } from './entities/dto/update-rating.dto.js';
+import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard.js';
 
 @Controller('ratings')
 export class RatingController {
@@ -23,7 +24,9 @@ export class RatingController {
       description: 'Invalid Data.',
       type: ProblemDetailsDto,
     })
-    
+    @ApiUnsupportedMediaTypeResponse({ 
+      description: 'Content-Type must be application/json' 
+    })
     @Post()
     create(@Body() createRatingDTO: CreateRatingDTO) {
         return this.ratingService.create(createRatingDTO)
@@ -73,6 +76,9 @@ export class RatingController {
       description: 'uuid of the rating to update',
       example: "rat_103gfskgf1356664"
     })
+    @ApiUnsupportedMediaTypeResponse({ 
+      description: 'Content-Type must be application/json' 
+    })
     update(@Param('id') id: string, @Body() updateRatingDTO: UpdateRatingDTO) {
         return this.ratingService.update(id, updateRatingDTO)
     }
@@ -90,6 +96,8 @@ export class RatingController {
       description: 'Uuid of the rating',
       example: "rat_103gfskgf1356664"
     })
+    @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
     remove(@Param('id') id: string) {
