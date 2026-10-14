@@ -11,6 +11,7 @@ export interface AuthUser {
 export class AuthService {
   constructor(private readonly jwtService: JwtService) {}
 
+  // Fake utilisateur
   private users = [
     { id: 1, username: 'user1', password: bcrypt.hashSync('password1', 10) },
     { id: 2, username: 'user2', password: bcrypt.hashSync('password2', 10) },
@@ -24,6 +25,7 @@ export class AuthService {
     throw new UnauthorizedException('Invalid username or password');
   }
 
+  // genere un JWT
   login(user: AuthUser): { access_token: string } {
     const payload = { username: user.username, sub: user.id };
     return { access_token: this.jwtService.sign(payload) };

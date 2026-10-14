@@ -2,7 +2,7 @@ import { Body, Controller, Post, Get, Param, Patch, HttpCode, HttpStatus, Delete
 import { RatingService } from './rating.service.js';
 import { CreateRatingDTO } from './entities/dto/create-rating.dto.js';
 import { ProblemDetailsDto } from '../commun/problem.detail.dto.js';
-import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse, ApiUnsupportedMediaTypeResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse, ApiUnsupportedMediaTypeResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { UpdateRatingDTO } from './entities/dto/update-rating.dto.js';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard.js';
 
@@ -97,6 +97,7 @@ export class RatingController {
       example: "rat_103gfskgf1356664"
     })
     @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     @Delete(':id')
     @HttpCode(HttpStatus.NO_CONTENT)
     remove(@Param('id') id: string) {

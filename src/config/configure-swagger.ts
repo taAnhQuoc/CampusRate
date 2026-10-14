@@ -8,9 +8,9 @@
           'API REST for campus places and rating them.',
         )
         .setVersion('2.0.0')
-        .addTag('Place', 'Managing Place')
-        .addTag('Review', 'Managing Rating')
         .addTag('Auth', 'Login (JWT)')
+        .addTag('Place', 'Managing Place')
+        .addTag('Rating', 'Managing Rating')
         .addBearerAuth()
         .build();
 

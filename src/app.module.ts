@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { PlaceModule } from './place/place.module.js';
 import { RatingModule } from './rating/rating.module.js';
 import { ConfigModule, ConfigService } from '@nestjs/config';
@@ -9,6 +9,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { JsonContentTypeGuard } from './commun/json-content-type-guard.js';
 import { AuthModule } from './auth/auth.module.js';
 import Joi from 'joi';
+import { RequestLoggerMiddleware } from './commun/logger-middleware.js';
 
 @Module({
   imports: [
@@ -45,4 +46,8 @@ import Joi from 'joi';
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard, },
               {provide: APP_GUARD, useClass: JsonContentTypeGuard}],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(RequestLoggerMiddleware).forRoutes('*');
+  }
+}

@@ -4,7 +4,7 @@ import { CreatePlaceDTO } from './entities/dto/create-place.dto.js';
 import { UpdatePlaceDTO } from './entities/dto/update-place.dto.js';
 import { ProblemDetailsDto } from '../commun/problem.detail.dto.js';
 import { PageDetailsDto } from '../commun/page.details.dto.js';
-import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse, ApiUnsupportedMediaTypeResponse, ApiConflictResponse } from '@nestjs/swagger';
+import { ApiCreatedResponse, ApiOperation, ApiBadRequestResponse, ApiParam, ApiOkResponse, ApiUnsupportedMediaTypeResponse, ApiConflictResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt/jwt-auth.guard.js';
 
 @Controller('places')
@@ -115,6 +115,7 @@ export class PlaceController {
       example: "plc_58bcf690-43e9-4739-a230-185a696fe9f"
     })
     @UseGuards(JwtAuthGuard)
+    @ApiBearerAuth()
     remove(@Param('id') id: string) {
       return this.placeService.remove(id);
     }
