@@ -127,3 +127,10 @@ energy-api/
 ├── tsconfig.build.json
 └── tsconfig.json
 ```
+## 7. Optionnal Function
+
+<ul>
+  <li>M1, M2 et M3 (une fonction pour calculer le total des ratings)</li>
+  <li>H1,H2,H3,H4,H5</li>
+  <li>L1, A1 JWT</li>
+</ul>
